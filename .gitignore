@@ -4,3 +4,4 @@ dist
 *.js
 .idea
 cdk.out
+template.yaml
