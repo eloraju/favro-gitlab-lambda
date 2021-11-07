@@ -1,8 +1,7 @@
 import * as cdk from "@aws-cdk/core";
-import { FavroGitlabLambdaStack } from "../lib/lambdas";
+import { FavroGitlabLambdaStack } from "../lib/lambda-stack";
 
 const app = new cdk.App();
-
 
 new FavroGitlabLambdaStack(app, 'favro-gitlab-lambda-stack', {
   stackName: 'favro-gitlab-lambda-stack',

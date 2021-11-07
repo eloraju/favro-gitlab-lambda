@@ -1,18 +1,11 @@
 import { SSMClient, GetParametersByPathCommand, GetParametersByPathCommandOutput } from "@aws-sdk/client-ssm";
-export enum EnvKeys {
-  FAVRO_USER="FAVRO_USER",
-  FAVRO_KEY="FAVRO_KEY",
-  FAVRO_COMPANY="FAVRO_COMPANY",
-  GITLAB_TOKEN = "GITLAB_TOKEN",
-  GITLAB_ROOT_BRANCH="GITLAB_ROOT_BRANCH",
-  GITLAB_PROJECT_ID="GITLAB_PROJECT_ID",
-  GITLAB_API_URL="GITLAB_API_URL"
-}
 
 export enum Paths {
   MR_CREATED = "/mrCreated",
   CARD_CREATED = "/cardCreated",
-  MERGED_TO = "/mergedTo"
+  MERGED_TO = "/mergedTo",
+  ORG_INFO = "/orgInfo",
+  CHUCK = "/chuckJoke"
 }
 
 export interface FavroClientParams {
