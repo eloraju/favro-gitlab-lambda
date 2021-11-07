@@ -15,14 +15,15 @@ export class FavroGitlabLambdaStack extends cdk.Stack {
 
     const api = new apiGateway.HttpApi(this, "favro-gitlab-hooks-api");
 
-    // GitLab hooks and endpoints
+    // GitLab endpoints
     new ApiEndpoint(this, api, handlers.mergedTo);
     new ApiEndpoint(this, api, handlers.mrCreated);
 
-    // Favro hooks and endpoints
+    // Favro endpoints
     new ApiEndpoint(this, api, handlers.cardCreated);
     new ApiEndpoint(this, api, handlers.orgInfo);
 
+    // Chuck endpoint :D
     new ApiEndpoint(this, api, handlers.chuck);
   }
 }

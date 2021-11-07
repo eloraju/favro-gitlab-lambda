@@ -1,4 +1,8 @@
 import { SSMClient, GetParametersByPathCommand, GetParametersByPathCommandOutput } from "@aws-sdk/client-ssm";
+import { ChuckClient } from "./clients/chuck.client";
+import { GitlabClient } from "./clients/gitlab.client";
+import { FavroClient } from "./clients/favro.client";
+import { APIGatewayProxyEventV2 } from "aws-lambda";
 
 export enum Paths {
   MR_CREATED = "/mrCreated",
@@ -26,11 +30,23 @@ export interface LambdaParams {
   gitlab: GitLabClientParams;
 }
 
-export type Stage =  'demo'|'stage'|'prod';
+export type Stage =  '$default'|'demo'|'stage'|'prod';
+
+export async function getGitLabClient(event: APIGatewayProxyEventV2): Promise<GitlabClient> {
+  const params = await getParams(event.requestContext.stage as Stage || "demo");
+  return new GitlabClient(params.gitlab);
+
+}
+
+export async function getFavroClient(event: APIGatewayProxyEventV2): Promise<FavroClient> {
+  const params = await getParams(event.requestContext.stage as Stage || "demo");
+  return new FavroClient(params.favro);
+
+}
 
 export async function getParams(stage: Stage): Promise<LambdaParams> {
   const ssm = new SSMClient({region: 'eu-north-1'});
-  const command = new GetParametersByPathCommand({Path: `/favro-gitlab/${stage}/`, WithDecryption:true, Recursive: true});
+  const command = new GetParametersByPathCommand({Path: `/favro-gitlab/${stage === "$default" ? "demo": stage}/`, WithDecryption:true, Recursive: true});
   try {
     const result: GetParametersByPathCommandOutput = await ssm.send(command);
     return result.Parameters.reduce((acc, param)=>{;
@@ -41,6 +57,5 @@ export async function getParams(stage: Stage): Promise<LambdaParams> {
     }, {favro: {}, gitlab: {}}) as LambdaParams;
   } catch (err) {
     console.log(err)
-    fail(err);
   }
 }

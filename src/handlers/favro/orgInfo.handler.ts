@@ -1,13 +1,12 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
-import { getParams, Stage } from "../../shared";
-import { GitlabClient } from "../../clients/gitlab.client";
-import { FavroClient } from "../../clients/favro.client";
+import { getFavroClient } from "../../shared";
 
 export async function handler(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
-  const {favro: params} = await getParams(event.requestContext.stage as Stage)
-  const favroClient = new FavroClient(params);
+  console.log(`DEBUG: ${JSON.stringify(event)}`)
+
+  const favroClient = await getFavroClient(event);
   const res = await favroClient.getOrgInfo();
 
   return {

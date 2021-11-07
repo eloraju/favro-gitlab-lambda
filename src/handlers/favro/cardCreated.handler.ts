@@ -1,12 +1,10 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
-import { getParams, Stage } from "../../shared";
-import { GitlabClient } from "../../clients/gitlab.client";
+import { getGitLabClient } from "../../shared";
 
 export async function handler(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
-  const {gitlab: params} = await getParams(event.requestContext.stage as Stage)
-  const gitlab = new GitlabClient(params);
+  const gitlab = await getGitLabClient(event);
   await gitlab.createBranch("someName");
 
   console.log(JSON.stringify(event));
