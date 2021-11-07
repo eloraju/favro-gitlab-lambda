@@ -8,8 +8,6 @@ export async function handler(
   await favro.moveCard("someId");
   await favro.updateReleased("someId");
 
-  console.log(JSON.stringify(event));
-
   return {
     body: JSON.stringify({message: "MergedToHookHandlerCalled"}),
     statusCode: 200

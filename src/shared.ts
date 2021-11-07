@@ -41,7 +41,6 @@ export async function getGitLabClient(event: APIGatewayProxyEventV2): Promise<Gi
 export async function getFavroClient(event: APIGatewayProxyEventV2): Promise<FavroClient> {
   const params = await getParams(event.requestContext.stage as Stage || "demo");
   return new FavroClient(params.favro);
-
 }
 
 export async function getParams(stage: Stage): Promise<LambdaParams> {
@@ -56,6 +55,6 @@ export async function getParams(stage: Stage): Promise<LambdaParams> {
       return acc;
     }, {favro: {}, gitlab: {}}) as LambdaParams;
   } catch (err) {
-    console.log(err)
+    console.log(`Error when fetching params from param store: ${JSON.stringify(err)}`);
   }
 }

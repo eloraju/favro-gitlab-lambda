@@ -7,8 +7,6 @@ export async function handler(
   const gitlab = await getGitLabClient(event);
   await gitlab.createBranch("someName");
 
-  console.log(JSON.stringify(event));
-
   return {
     body: JSON.stringify({message: "CreateCardHookHandler called"}),
     statusCode: 200

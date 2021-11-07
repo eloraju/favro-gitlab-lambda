@@ -13,7 +13,7 @@ export class FavroGitlabLambdaStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const api = new apiGateway.HttpApi(this, "favro-gitlab-hooks-api");
+    const api = new apiGateway.HttpApi(this, "favro-gitlab-hooks-api", {createDefaultStage: false});
 
     // GitLab endpoints
     new ApiEndpoint(this, api, handlers.mergedTo);
@@ -25,5 +25,13 @@ export class FavroGitlabLambdaStack extends cdk.Stack {
 
     // Chuck endpoint :D
     new ApiEndpoint(this, api, handlers.chuck);
+
+
+    // TODO: set stage to be read from process.env.DEPLOY_STAGE
+    new apiGateway.HttpStage(this, "DemoStage", {
+      autoDeploy: true,
+      stageName: "demo",
+      httpApi: api
+    })
   }
 }

@@ -7,8 +7,6 @@ export async function handler(
   const favro = await getFavroClient(event);
   await favro.moveCard("someId");
 
-  console.log(JSON.stringify(event));
-
   return {
     body: JSON.stringify({message: "MRCreatedHookHandler called"}),
     statusCode: 200

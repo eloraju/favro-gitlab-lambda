@@ -20,8 +20,13 @@ export class FavroClient {
   }
 
   async getOrgInfo() {
-    const res = await this.client.get(`/organizations/${this.params.orgId}`);
-    return res.data
+    try {
+      const res = await this.client.get(`/organizations/${this.params.orgId}`);
+      return res.data;
+    } catch(err) {
+      console.log(`Error fetching org info: ${JSON.stringify(err)}`)
+      return "Error with favro client";
+    }
   }
 
   async moveCard(cardId: string) {
