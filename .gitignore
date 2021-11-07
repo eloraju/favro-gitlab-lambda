@@ -5,3 +5,4 @@ dist
 .idea
 cdk.out
 template.yaml
+bin/.env*

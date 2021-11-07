@@ -1,14 +1,21 @@
-import axios from "axios";
-import { EnvKeys } from "./shared";
+import axios, {AxiosInstance} from "axios";
+import { EnvKeys, FavroClientParams, GitLabClientParams } from "./shared";
 
 export class GitlabClient {
-  private client = axios.create({
-    baseURL: process.env[EnvKeys.GITLAB_API_URL],
-    headers: {
-      "PRIVATE-TOKEN": process.env[EnvKeys.GITLAB_TOKEN]
-    }
-  });
-  private projectId = process.env[EnvKeys.GITLAB_PROJECT_ID];
+  private client: AxiosInstance;
+  private projectId: string
+  private rootBranch: string;
+
+  constructor(params: GitLabClientParams) {
+    this.client = axios.create({
+      baseURL: params.url,
+      headers: {
+        "PRIVATE-TOKEN": params.token
+      }
+    });
+    this.projectId = params.projectId;
+    this.projectId = params.projectId;
+  }
 
   async createBranch(branch: string) {
     try {
@@ -17,7 +24,7 @@ export class GitlabClient {
 //        {
 //          query: {
 //            branch,
-//            ref: process.env[EnvKeys.GITLAB_ROOT_BRANCH]
+//            ref: this.rootBranch
 //          }
 //        }
 //      );
@@ -30,16 +37,20 @@ export class GitlabClient {
 }
 
 export class FavroClient {
-  private client = axios.create({
-    baseURL: "https://favro.com/api/v1",
-    auth: {
-      username: process.env[EnvKeys.FAVRO_USER],
-      password: process.env[EnvKeys.FAVRO_KEY]
-    },
-    headers: {
-      organizationId: process.env[EnvKeys.FAVRO_COMPANY]
-    }
-  });
+  private client: AxiosInstance;
+
+  constructor(params: FavroClientParams) {
+    this.client =  axios.create({
+      baseURL: "https://favro.com/api/v1",
+      auth: {
+        username: params.user,
+        password: params.key
+      },
+      headers: {
+        organizationId: params.orgId
+      }
+    });
+  }
 
   async moveCard(cardId: string) {
     //const res = await this.client.post("/");
@@ -53,12 +64,12 @@ export class FavroClient {
 }
 
 export class ChuckClient {
-    private client = axios.create({
+  private client = axios.create({
     baseURL: "https://api.chucknorris.io/jokes",
   });
 
-    async getRandomJoke(): Promise<string> {
-      const res = await this.client.get("/random");
-      return res.data.value
-    }
+  async getRandomJoke(): Promise<string> {
+    const res = await this.client.get("/random");
+    return res.data.value
+  }
 }

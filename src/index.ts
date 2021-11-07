@@ -1,10 +1,12 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import { GitlabClient, FavroClient, ChuckClient } from "./clients";
+import { getParams, Stage } from "./shared";
 
 export async function cardCreatedHandler(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
-  const gitlab = new GitlabClient();
+  const {gitlab: params} = await getParams(event.requestContext.stage as Stage)
+  const gitlab = new GitlabClient(params);
   await gitlab.createBranch("someName");
 
   console.log(JSON.stringify(event));
@@ -18,7 +20,8 @@ export async function cardCreatedHandler(
 export async function mrCreatedHandler(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
-  const favro = new FavroClient();
+  const {favro: params} = await getParams(event.requestContext.stage as Stage)
+  const favro = new FavroClient(params);
   await favro.moveCard("someId");
 
   console.log(JSON.stringify(event));
@@ -32,7 +35,8 @@ export async function mrCreatedHandler(
 export async function mergedToHandler(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
-  const favro = new FavroClient();
+  const {favro: params} = await getParams(event.requestContext.stage as Stage)
+  const favro = new FavroClient(params);
   await favro.moveCard("someId");
   await favro.updateReleased("someId");
 
