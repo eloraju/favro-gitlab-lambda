@@ -1,11 +1,12 @@
 import axios, { AxiosInstance } from "axios";
-import { FavroClientParams } from "../shared";
+import { FavroClientParams, GitLabClientParams } from "../shared";
 
 export class FavroClient {
   private client: AxiosInstance;
   private params: FavroClientParams;
+  private gitlabParams: GitLabClientParams;
 
-  constructor(params: FavroClientParams) {
+  constructor(params: FavroClientParams, gitlabParams: GitLabClientParams) {
     this.params = params;
     this.client =  axios.create({
       baseURL: "https://favro.com/api/v1",
@@ -17,6 +18,7 @@ export class FavroClient {
         organizationId: params.orgId
       }
     });
+    this.gitlabParams = gitlabParams;
   }
 
   async getOrgInfo() {

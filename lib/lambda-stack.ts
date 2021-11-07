@@ -21,6 +21,9 @@ export class FavroGitlabLambdaStack extends cdk.Stack {
     // Chuck endpoint :D
     new ApiEndpoint(this, api, handlers.chuck);
 
+    // Other endpoints
+    new ApiEndpoint(this, api, handlers.ping);
+
 
     // TODO: set stage to be read from process.env.DEPLOY_STAGE
     new apiGateway.HttpStage(this, "DemoStage", {

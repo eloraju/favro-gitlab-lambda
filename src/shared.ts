@@ -10,13 +10,15 @@ export enum Paths {
   MERGED_TO = "/mergedTo",
   ORG_INFO = "/orgInfo",
   CHUCK = "/chuckJoke",
-  CHECK_PROJECT = "/checkProject"
+  CHECK_PROJECT = "/checkProject",
+  PING = "/ping"
 }
 
 export interface FavroClientParams {
   user: string;
   key: string;
   orgId: string;
+  collectionId: string;
 }
 
 export interface GitLabClientParams {
@@ -35,13 +37,13 @@ export type Stage =  '$default'|'demo'|'stage'|'prod';
 
 export async function getGitLabClient(event: APIGatewayProxyEventV2): Promise<GitlabClient> {
   const params = await getParams(event.requestContext.stage as Stage || "demo");
-  return new GitlabClient(params.gitlab);
+  return new GitlabClient(params.gitlab, params.favro);
 
 }
 
 export async function getFavroClient(event: APIGatewayProxyEventV2): Promise<FavroClient> {
   const params = await getParams(event.requestContext.stage as Stage || "demo");
-  return new FavroClient(params.favro);
+  return new FavroClient(params.favro, params.gitlab);
 }
 
 export async function getParams(stage: Stage): Promise<LambdaParams> {

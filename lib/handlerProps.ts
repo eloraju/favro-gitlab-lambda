@@ -51,4 +51,12 @@ export const handlers: {[name: string]: ApiEndpointProps} = {
     apiPath: Paths.CHUCK,
     methods: [HttpMethod.GET]
   },
+
+  // Other
+  ping: {
+    id: "PingHandler",
+    entry: apiPath.join(__dirname, "../src/handlers/ping.handler.ts"),
+    apiPath: Paths.PING,
+    methods: [HttpMethod.GET, HttpMethod.POST]
+  },
 };
