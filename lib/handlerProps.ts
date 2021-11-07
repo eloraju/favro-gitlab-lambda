@@ -11,6 +11,7 @@ const HandlerPaths  = {
 
 export const handlers: {[name: string]: ApiEndpointProps} = {
   mrCreated: {
+    // GitLab
     id: "MRCreatedHandler",
     entry: `${HandlerPaths.gitlab}/mrCreated.handler.ts`,
     apiPath: Paths.MR_CREATED,
@@ -22,6 +23,14 @@ export const handlers: {[name: string]: ApiEndpointProps} = {
     apiPath: Paths.MERGED_TO,
     methods: [HttpMethod.POST]
   },
+  checkProject: {
+    id: "CheckProjectHandler",
+    entry: `${HandlerPaths.gitlab}/checkProject.handler.ts`,
+    apiPath: Paths.CHECK_PROJECT,
+    methods: [HttpMethod.GET]
+  },
+
+  // Favro
   cardCreated: {
     id: "CardCreatedHandler",
     entry: `${HandlerPaths.favro}/cardCreated.handler.ts`,
@@ -34,6 +43,8 @@ export const handlers: {[name: string]: ApiEndpointProps} = {
     apiPath: Paths.ORG_INFO,
     methods: [HttpMethod.GET]
   },
+
+  // Chuck
   chuck: {
     id: "ChuckHandler",
     entry: `${HandlerPaths.chuck}/joke.handler.ts`,

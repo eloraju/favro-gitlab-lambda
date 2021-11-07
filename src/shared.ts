@@ -9,7 +9,8 @@ export enum Paths {
   CARD_CREATED = "/cardCreated",
   MERGED_TO = "/mergedTo",
   ORG_INFO = "/orgInfo",
-  CHUCK = "/chuckJoke"
+  CHUCK = "/chuckJoke",
+  CHECK_PROJECT = "/checkProject"
 }
 
 export interface FavroClientParams {

@@ -1,11 +1,5 @@
-import * as lambda from "@aws-cdk/aws-lambda";
-import { NodejsFunction } from "@aws-cdk/aws-lambda-nodejs";
 import * as cdk from "@aws-cdk/core";
-import * as path from "path";
 import * as apiGateway from "@aws-cdk/aws-apigatewayv2";
-import { HttpMethod } from "@aws-cdk/aws-apigatewayv2";
-import { Paths } from "../src/shared";
-import { LambdaProxyIntegration } from "@aws-cdk/aws-apigatewayv2-integrations";
 import { ApiEndpoint } from "./apiEndpoint";
 import { handlers } from "./handlerProps";
 
@@ -18,6 +12,7 @@ export class FavroGitlabLambdaStack extends cdk.Stack {
     // GitLab endpoints
     new ApiEndpoint(this, api, handlers.mergedTo);
     new ApiEndpoint(this, api, handlers.mrCreated);
+    new ApiEndpoint(this, api, handlers.checkProject);
 
     // Favro endpoints
     new ApiEndpoint(this, api, handlers.cardCreated);

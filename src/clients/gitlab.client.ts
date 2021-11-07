@@ -36,4 +36,9 @@ export class GitlabClient {
       return "Error";
     }
   }
+
+  async getProjectName(): Promise<string> {
+    const res = await this.client.get(`/projects/${this.projectId}`);
+    return res.data.name;
+  }
 }
